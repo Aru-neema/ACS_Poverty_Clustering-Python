@@ -1,0 +1,156 @@
+---
+title: "AR_AML"
+output: html_document
+date: "2023-04-24"
+---
+```{r}
+library(arules)
+library(arulesViz)
+```
+
+
+```{r}
+ACS_data_18 = read.csv('C:/Users/ARU PC/Documents/GitHub/ist707_team4_acs_poverty_analysis/ARminingProcessing_18.csv')
+
+ACS_data_19 = read.csv('C:/Users/ARU PC/Documents/GitHub/ist707_team4_acs_poverty_analysis/ARminingProcessing_19.csv')
+
+ACS_data_20 = read.csv('C:/Users/ARU PC/Documents/GitHub/ist707_team4_acs_poverty_analysis/ARminingProcessing_20.csv')
+
+ACS_data_21 = read.csv('C:/Users/ARU PC/Documents/GitHub/ist707_team4_acs_poverty_analysis/ARminingProcessing_21.csv')
+```
+
+
+```{r}
+ACS_data_18 <- subset(ACS_data_18, select= -c(zip_code))
+ACS_data_19 <- subset(ACS_data_19, select= -c(zip_code))
+ACS_data_20 <- subset(ACS_data_20, select= -c(zip_code))
+ACS_data_21 <- subset(ACS_data_21, select= -c(zip_code))
+
+```
+
+
+
+```{r}
+
+#2018
+ACS_data_18[] <- lapply( ACS_data_18, factor)
+ACS_trans_18 <- as(ACS_data_18, "transactions")
+ACS_trans_18
+
+#2019
+ACS_data_19[] <- lapply( ACS_data_19, factor)
+ACS_trans_19 <- as(ACS_data_19, "transactions")
+ACS_trans_19
+
+
+#2020
+ACS_data_20[] <- lapply( ACS_data_20, factor)
+ACS_trans_20 <- as(ACS_data_20, "transactions")
+ACS_trans_20
+
+#2021
+ACS_data_21[] <- lapply( ACS_data_21, factor)
+ACS_trans_21 <- as(ACS_data_21, "transactions")
+ACS_trans_21
+
+```
+
+
+```{r}
+class(ACS_trans_18)
+class(ACS_trans_19)
+class(ACS_trans_20)
+class(ACS_trans_21)
+```
+
+```{r}
+
+itemFrequencyPlot(ACS_trans_18,
+                  topN = 20,
+                  type = 'relative')
+
+itemFrequencyPlot(ACS_trans_19,
+                  topN = 20,
+                  type = 'relative')
+
+itemFrequencyPlot(ACS_trans_20,
+                  topN = 20,
+                  type = 'relative')
+
+itemFrequencyPlot(ACS_trans_21,
+                  topN = 20,
+                  type = 'relative')
+
+```
+
+
+```{r}
+
+#2018
+rules_18 <-  apriori(data = ACS_trans_18,
+                parameter=list(supp = 0.9,
+                               conf = 0.8,
+                               minlen = 3),  #'minlen' is set to avoid empty left hand side items
+               appearance = list(default = 'lhs',
+                                 rhs = "underPoverty=1"),
+               control = list(verbose=F))
+
+rules_18
+
+#2019
+rules_19 <-  apriori(data = ACS_trans_19,
+                parameter=list(supp = 0.9,
+                               conf = 0.8,
+                               minlen = 3),  #'minlen' is set to avoid empty left hand side items
+               appearance = list(default = 'lhs',
+                                 rhs = "underPoverty=1"),
+               control = list(verbose=F))
+
+rules_19
+
+#2020
+rules_20 <-  apriori(data = ACS_trans_20,
+                parameter=list(supp = 0.9,
+                               conf = 0.8,
+                               minlen = 3),  #'minlen' is set to avoid empty left hand side items
+               appearance = list(default = 'lhs',
+                                 rhs = "underPoverty=1"),
+               control = list(verbose=F))
+
+rules_20
+
+#2021
+rules_21 <-  apriori(data = ACS_trans_21,
+                parameter=list(supp = 0.9,
+                               conf = 0.8,
+                               minlen = 2),  #'minlen' is set to avoid empty left hand side items
+               appearance = list(default = 'lhs',
+                                 rhs = "underPoverty=0"),
+               control = list(verbose=F))
+
+rules_21
+
+```
+
+```{r}
+inspectDT(rules_18)
+```
+```{r}
+inspectDT(rules_19)
+```
+
+
+```{r}
+inspectDT(rules_20)
+```
+
+
+```{r}
+inspectDT(rules_21)
+```
+
+
+```{r}
+inspectDT(rules_21)
+```
+
