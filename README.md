@@ -2,7 +2,7 @@
 
 After reading the documentation, the audience (advanced data Science students, aspirational data analyst) will know how to do the following tasks:
 
-Large dataset 'Data Cleaning' steps
+Large dataset 'Data Cleaning' steps <n>
 Understand how to use Kmeans clustering, Agglomerative clustering in loops for different dataset
 
 Project Background- The purpose of this project is to find the trend of poverty in the zip codes by analyzing various demographic variables through machine learning techniques and identify which zip codes fall ‘under poverty’ criteria.
